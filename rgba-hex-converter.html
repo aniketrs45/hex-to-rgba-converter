@@ -20,12 +20,9 @@
       <p class="text-sm text-gray-400 mb-4">Convert hex colors to RGBA format with opacity control</p>
 
       <label class="block text-sm font-medium mb-1">Hex Color</label>
-      <div class="flex items-center space-x-2">
-        <span class="text-gray-400">#</span>
-        <input id="hexInput" type="text" placeholder="3B82F6"
-          class="flex-1 p-2 rounded-md bg-gray-700 text-white border border-gray-600 focus:ring-2 focus:ring-cyan-400 outline-none"
-          value="3B82F6" />
-      </div>
+      <input id="hexInput" type="text" placeholder="3B82F6"
+        class="w-full p-2 rounded-md bg-gray-700 text-white border border-gray-600 focus:ring-2 focus:ring-cyan-400 outline-none"
+        value="3B82F6" />
 
       <label class="block text-sm font-medium mt-4 mb-1">Opacity (%)</label>
       <div class="relative">
@@ -49,15 +46,15 @@
     </div>
 
     <!-- Right Panel -->
-    <div class="flex-1 pt-6">
+    <div class="flex-1 pt-10">
       <div class="mb-4 flex justify-between items-center">
         <h2 class="block text-sm font-medium text-gray-300 mb-1">Live Preview</h2>
         <button id="randomBtn" class="px-3 py-1 bg-cyan-600 hover:bg-cyan-700 text-white text-xs rounded-md">Random</button>
       </div>
-      <div id="previewBox" class="w-full h-[264px] rounded-md flex items-center justify-center bg-[#3B82F6] text-white font-semibold text-xl">
+      <div id="previewBox" class="w-full h-[264px] rounded-md flex items-center justify-center bg-[#3B82F6] text-white font-semibold text-xl text-center px-4">
         #3B82F6 at 80% <br/> Click to copy color
       </div>
-      <div class="mt-4 p-4 bg-transparent rounded-md text-sm text-[#94A3B8] grid grid-cols-2 gap-4">
+      <div class="mt-4 p-4 bg-transparent rounded-md text-sm text-gray-400 space-y-2">
         <p><strong>HSL:</strong> <span id="hslText">217°, 91%, 60%</span></p>
         <p><strong>CMYK:</strong> <span id="cmykText">76%, 47%, 0%, 4%</span></p>
       </div>
