@@ -5,72 +5,105 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>RGBA Hex Converter</title>
   <script src="https://cdn.tailwindcss.com"></script>
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet" />
   <style>
     body { font-family: 'Inter', sans-serif; }
+    .hover-feedback {
+      transition: all 0.3s ease;
+    }
+    .hover-feedback:hover {
+      transform: scale(1.03);
+    }
   </style>
 </head>
 <body class="bg-[#0f172a] text-white min-h-screen flex flex-col">
 
-  <main class="flex-grow flex flex-col md:flex-row gap-6 px-4 py-10 max-w-5xl mx-auto">
+  <main class="flex-grow flex items-center justify-center px-4 py-10">
+    <div class="bg-gray-800 p-6 rounded-xl shadow-lg w-full max-w-2xl border border-gray-700">
+      <h1 class="text-2xl font-bold text-center text-cyan-300 mb-1">RGBA Hex Converter</h1>
+      <p class="text-center text-sm text-gray-400 mb-6">Convert hex colors to RGBA format with opacity control</p>
 
-    <!-- Left Panel -->
-    <div class="w-full md:w-1/2 space-y-4">
-      <h1 class="text-2xl font-bold text-cyan-300 mb-2">RGBA Hex Converter</h1>
-      <p class="text-sm text-gray-400 mb-4">Convert hex colors to RGBA format with opacity control</p>
+      <div class="grid md:grid-cols-2 gap-6">
+        <!-- Left Side -->
+        <div>
+          <label class="block mb-2 text-sm font-medium">Hex Color</label>
+          <div class="flex items-center gap-2 mb-4 p-2 rounded-md bg-gray-700 border border-cyan-500">
+            <span class="text-white text-lg font-mono">#</span>
+            <input id="hexInput" type="text" value="3B82F6"
+              class="flex-1 text-center text-white font-mono text-lg bg-transparent outline-none placeholder-gray-400" />
+          </div>
 
-      <label class="block text-sm font-medium mb-1">Hex Color</label>
-      <input id="hexInput" type="text" placeholder="3B82F6"
-        class="w-full p-2 rounded-md bg-gray-700 text-white border border-gray-600 focus:ring-2 focus:ring-cyan-400 outline-none"
-        value="3B82F6" />
+          <label class="block mb-2 text-sm font-medium">Opacity (%)</label>
+          <input id="opacityInput" type="number" min="0" max="100" value="80"
+            class="w-full mb-4 p-2 rounded-md bg-gray-700 text-white border border-gray-600 focus:ring-2 focus:ring-cyan-400 outline-none" />
 
-      <label class="block text-sm font-medium mt-4 mb-1">Opacity (%)</label>
-      <div class="relative">
-        <input id="opacityInput" type="number" min="0" max="100" value="80"
-          class="w-full p-2 rounded-md bg-gray-700 text-white border border-gray-600 focus:ring-2 focus:ring-cyan-400 outline-none" />
-        <span class="absolute top-1/2 right-3 -translate-y-1/2 text-sm text-gray-400">%</span>
-      </div>
+          <div class="mb-4">
+            <label class="block text-sm font-medium">Alpha Hex (AA)</label>
+            <div id="alphaHex" class="mt-1 bg-gray-700 text-cyan-300 p-2 rounded-md font-mono text-center">CC</div>
+          </div>
 
-      <div class="mt-4">
-        <label class="block text-sm font-medium">Alpha Hex (AA)</label>
-        <div id="alphaHex" class="mt-1 bg-gray-700 text-cyan-300 p-2 rounded-md font-mono text-center">FF</div>
-      </div>
+          <div class="mb-4">
+            <label class="block text-sm font-medium mb-1">RGBA Hex Code (#RRGGBBAA)</label>
+            <div class="relative">
+              <div id="rgbaHex" class="bg-gray-900 text-cyan-400 p-3 text-center rounded-md font-mono text-xl border border-cyan-400">#3B82F6CC</div>
+              <button id="copyBtn" class="absolute right-2 top-1/2 -translate-y-1/2 text-cyan-400 hover:text-white">
+                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" class="w-5 h-5">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 16h8M8 12h8m-6 8h6a2 2 0 002-2V8a2 2 0 00-2-2H8a2 2 0 00-2 2v6" />
+                </svg>
+              </button>
+            </div>
+          </div>
 
-      <div class="mt-4">
-        <label class="block text-sm font-medium">RGBA Hex Code (#RRGGBBAA)</label>
-        <div class="relative">
-          <div id="rgbaHex" class="mt-1 bg-gray-900 text-cyan-400 p-3 text-center rounded-md font-mono text-xl border border-cyan-400">#3B82F6CC</div>
-          <button onclick="copyToClipboard()" class="absolute top-1 right-2 text-sm text-cyan-400 hover:underline">Copy</button>
+          <div class="mb-4">
+            <label class="block text-sm font-medium mb-1">RGB Code</label>
+            <div class="relative">
+              <div id="rgbCode" class="bg-gray-900 text-cyan-400 p-3 text-center rounded-md font-mono text-xl border border-cyan-400">59, 130, 246</div>
+              <button id="copyRgbBtn" class="absolute right-2 top-1/2 -translate-y-1/2 text-cyan-400 hover:text-white">
+                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" class="w-5 h-5">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 16h8M8 12h8m-6 8h6a2 2 0 002-2V8a2 2 0 00-2-2H8a2 2 0 00-2 2v6" />
+                </svg>
+              </button>
+            </div>
+          </div>
+
+          <div class="flex gap-2">
+            <button id="resetBtn" class="w-full bg-red-600 hover:bg-red-700 text-white py-2 rounded-md text-sm">Reset</button>
+            <button id="randomBtn" class="w-full bg-cyan-600 hover:bg-cyan-700 text-white py-2 rounded-md text-sm">Random</button>
+          </div>
+        </div>
+
+        <!-- Right Side -->
+        <div class="flex flex-col justify-between h-full">
+          <div>
+            <label class="block mb-1 text-sm font-medium">Live Preview</label>
+            <div id="previewBox" class="w-full h-24 rounded-md flex flex-col items-center justify-center text-sm font-medium bg-[#3B82F6] text-black mb-4 hover-feedback relative cursor-pointer">
+              <span id="previewText">#3B82F6 at 80%</span>
+              <span class="text-xs text-white absolute bottom-1 opacity-80">Click to copy color</span>
+            </div>
+            <div class="bg-gray-900 p-4 rounded-lg border border-cyan-700 text-slate-400 text-sm space-y-2">
+              <div><strong>HSL:</strong> <span id="hslValue">217°, 91%, 60%</span></div>
+              <div><strong>CMYK:</strong> <span id="cmykValue">76%, 47%, 0%, 4%</span></div>
+            </div>
+          </div>
         </div>
       </div>
     </div>
-
-    <!-- Right Panel -->
-    <div class="flex-1 pt-10">
-      <div class="mb-4 flex justify-between items-center">
-        <h2 class="block text-sm font-medium text-gray-300 mb-1">Live Preview</h2>
-        <button id="randomBtn" class="px-3 py-1 bg-cyan-600 hover:bg-cyan-700 text-white text-xs rounded-md">Random</button>
-      </div>
-      <div id="previewBox" class="w-full h-[264px] rounded-md flex items-center justify-center bg-[#3B82F6] text-white font-semibold text-xl text-center px-4">
-        #3B82F6 at 80% <br/> Click to copy color
-      </div>
-      <div class="mt-4 p-4 bg-transparent rounded-md text-sm text-gray-400 space-y-2">
-        <p><strong>HSL:</strong> <span id="hslText">217°, 91%, 60%</span></p>
-        <p><strong>CMYK:</strong> <span id="cmykText">76%, 47%, 0%, 4%</span></p>
-      </div>
-    </div>
-
   </main>
 
-  <!-- Script -->
   <script>
     const hexInput = document.getElementById("hexInput");
     const opacityInput = document.getElementById("opacityInput");
     const alphaHex = document.getElementById("alphaHex");
     const rgbaHex = document.getElementById("rgbaHex");
     const previewBox = document.getElementById("previewBox");
-    const hslText = document.getElementById("hslText");
-    const cmykText = document.getElementById("cmykText");
+    const previewText = document.getElementById("previewText");
+    const copyBtn = document.getElementById("copyBtn");
+    const copyRgbBtn = document.getElementById("copyRgbBtn");
+    const randomBtn = document.getElementById("randomBtn");
+    const resetBtn = document.getElementById("resetBtn");
+    const rgbCode = document.getElementById("rgbCode");
+    const hslValue = document.getElementById("hslValue");
+    const cmykValue = document.getElementById("cmykValue");
 
     function convertToAlphaHex(opacity) {
       const alpha = Math.round((opacity / 100) * 255);
@@ -78,15 +111,11 @@
     }
 
     function hexToRgb(hex) {
-      const normalized = hex.length === 3
-        ? hex.split('').map(c => c + c).join('')
-        : hex;
-      const bigint = parseInt(normalized, 16);
-      return {
-        r: (bigint >> 16) & 255,
-        g: (bigint >> 8) & 255,
-        b: bigint & 255
-      };
+      const bigint = parseInt(hex, 16);
+      const r = (bigint >> 16) & 255;
+      const g = (bigint >> 8) & 255;
+      const b = bigint & 255;
+      return [r, g, b];
     }
 
     function rgbToHsl(r, g, b) {
@@ -94,9 +123,8 @@
       const max = Math.max(r, g, b), min = Math.min(r, g, b);
       let h, s, l = (max + min) / 2;
 
-      if (max === min) {
-        h = s = 0;
-      } else {
+      if (max === min) h = s = 0;
+      else {
         const d = max - min;
         s = l > 0.5 ? d / (2 - max - min) : d / (max + min);
         switch (max) {
@@ -106,76 +134,81 @@
         }
         h /= 6;
       }
-      return [
-        Math.round(h * 360),
-        Math.round(s * 100),
-        Math.round(l * 100)
-      ];
+
+      return [Math.round(h * 360), Math.round(s * 100), Math.round(l * 100)];
     }
 
     function rgbToCmyk(r, g, b) {
-      if ((r === 0) && (g === 0) && (b === 0)) {
-        return [0, 0, 0, 100];
-      }
-      const c = 1 - (r / 255);
-      const m = 1 - (g / 255);
-      const y = 1 - (b / 255);
-      const minCMY = Math.min(c, Math.min(m, y));
-      return [
-        Math.round((c - minCMY) / (1 - minCMY) * 100),
-        Math.round((m - minCMY) / (1 - minCMY) * 100),
-        Math.round((y - minCMY) / (1 - minCMY) * 100),
-        Math.round(minCMY * 100)
-      ];
+      let c = 1 - r / 255;
+      let m = 1 - g / 255;
+      let y = 1 - b / 255;
+      let k = Math.min(c, m, y);
+      c = ((c - k) / (1 - k)) || 0;
+      m = ((m - k) / (1 - k)) || 0;
+      y = ((y - k) / (1 - k)) || 0;
+      return [Math.round(c * 100), Math.round(m * 100), Math.round(y * 100), Math.round(k * 100)];
     }
 
     function updateResult() {
-      let hex = hexInput.value.trim().replace(/^#/, '');
-      if (!/^([0-9a-f]{6}|[0-9a-f]{3})$/i.test(hex)) {
-        rgbaHex.textContent = 'Invalid hex';
-        alphaHex.textContent = '--';
-        previewBox.style.backgroundColor = 'transparent';
-        previewBox.textContent = 'Invalid input';
+      const hex = hexInput.value.trim().replace("#", "");
+      const opacity = Math.min(Math.max(parseInt(opacityInput.value), 0), 100);
+      const alpha = convertToAlphaHex(opacity);
+
+      if (!/^([0-9a-f]{6})$/i.test(hex)) {
+        rgbaHex.textContent = "Invalid hex";
+        alphaHex.textContent = "--";
+        previewBox.style.backgroundColor = "transparent";
+        previewText.textContent = "Invalid input";
+        rgbCode.textContent = "--";
+        hslValue.textContent = "--";
+        cmykValue.textContent = "--";
         return;
       }
 
-      const opacity = Math.min(Math.max(parseInt(opacityInput.value), 0), 100);
-      const alpha = convertToAlphaHex(opacity);
-      const normalizedHex = hex.length === 3
-        ? hex.split('').map(c => c + c).join('')
-        : hex;
-
-      const rgb = hexToRgb(normalizedHex);
-      const hsl = rgbToHsl(rgb.r, rgb.g, rgb.b);
-      const cmyk = rgbToCmyk(rgb.r, rgb.g, rgb.b);
-
-      rgbaHex.textContent = `#${normalizedHex.toUpperCase()}${alpha}`;
+      const fullHex = `#${hex}${alpha}`;
+      rgbaHex.textContent = fullHex;
       alphaHex.textContent = alpha;
-      previewBox.style.backgroundColor = `#${normalizedHex}`;
-      previewBox.textContent = `#${normalizedHex.toUpperCase()} at ${opacity}%\nClick to copy color`;
+      previewBox.style.backgroundColor = `#${hex}`;
+      previewText.textContent = `#${hex.toUpperCase()} at ${opacity}%`;
 
-      hslText.textContent = `${hsl[0]}°, ${hsl[1]}%, ${hsl[2]}%`;
-      cmykText.textContent = `${cmyk[0]}%, ${cmyk[1]}%, ${cmyk[2]}%, ${cmyk[3]}%`;
+      const [r, g, b] = hexToRgb(hex);
+      rgbCode.textContent = `${r}, ${g}, ${b}`;
+
+      const [h, s, l] = rgbToHsl(r, g, b);
+      hslValue.textContent = `${h}°, ${s}%, ${l}%`;
+
+      const [c, m, y, k] = rgbToCmyk(r, g, b);
+      cmykValue.textContent = `${c}%, ${m}%, ${y}%, ${k}%`;
     }
 
+    function getRandomHex() {
+      return Math.floor(Math.random() * 0xFFFFFF).toString(16).padStart(6, "0").toUpperCase();
+    }
+
+    function copyToClipboard(text, targetBtn) {
+      navigator.clipboard.writeText(text).then(() => {
+        const originalHTML = targetBtn.innerHTML;
+        targetBtn.innerHTML = "<span class='text-sm'>Copied!</span>";
+        setTimeout(() => targetBtn.innerHTML = originalHTML, 1000);
+      });
+    }
+
+    previewBox.addEventListener("click", () => copyToClipboard(previewText.textContent, previewBox));
     hexInput.addEventListener("input", updateResult);
     opacityInput.addEventListener("input", updateResult);
-
-    function copyToClipboard() {
-      navigator.clipboard.writeText(rgbaHex.textContent);
-    }
-
-    // Random button logic
-    document.getElementById("randomBtn").addEventListener("click", () => {
-      const letters = '0123456789ABCDEF';
-      let color = '';
-      for (let i = 0; i < 6; i++) {
-        color += letters[Math.floor(Math.random() * 16)];
-      }
-      hexInput.value = color;
-      opacityInput.value = 80;
+    copyBtn.addEventListener("click", () => copyToClipboard(rgbaHex.textContent, copyBtn));
+    copyRgbBtn.addEventListener("click", () => copyToClipboard(rgbCode.textContent, copyRgbBtn));
+    randomBtn.addEventListener("click", () => {
+      hexInput.value = getRandomHex();
       updateResult();
     });
+    resetBtn.addEventListener("click", resetForm);
+
+    function resetForm() {
+      hexInput.value = "3B82F6";
+      opacityInput.value = "80";
+      updateResult();
+    }
 
     updateResult();
   </script>
