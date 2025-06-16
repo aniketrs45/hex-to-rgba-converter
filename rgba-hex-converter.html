@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>RGBA Hex Converter</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+</head>
+<body class="bg-gray-900 text-white flex items-center justify-center min-h-screen">
+  <div class="bg-gray-800 p-6 rounded-xl shadow-lg w-full max-w-md border border-gray-700">
+    <h1 class="text-2xl font-bold text-center text-cyan-300 mb-6">RGBA Hex Converter</h1>
+
+    <label class="block mb-2 text-sm font-medium">Base Hex Color (e.g. #RRGGBB, #RGB)</label>
+    <input id="hexInput" type="text" placeholder="#949494"
+      class="w-full mb-4 p-2 rounded-md bg-gray-700 text-white border border-gray-600 focus:ring-2 focus:ring-cyan-400 outline-none" />
+
+    <label class="block mb-2 text-sm font-medium">Opacity Percentage (0–100)</label>
+    <div class="relative mb-4">
+      <input id="opacityInput" type="number" min="0" max="100" value="100"
+        class="w-full p-2 rounded-md bg-gray-700 text-white border border-gray-600 focus:ring-2 focus:ring-cyan-400 outline-none" />
+      <span class="absolute top-1/2 right-3 -translate-y-1/2 text-sm text-gray-400">%</span>
+    </div>
+
+    <div class="mb-4">
+      <label class="block text-sm font-medium">Alpha Hex (AA)</label>
+      <div id="alphaHex" class="mt-1 bg-gray-700 text-cyan-300 p-2 rounded-md font-mono text-center">FF</div>
+    </div>
+
+    <div class="mb-4">
+      <label class="block text-sm font-medium">RGBA Hex Code (#RRGGBBAA)</label>
+      <div id="rgbaHex" class="mt-1 bg-gray-900 text-cyan-400 p-3 text-center rounded-md font-mono text-xl border border-cyan-400">#949494FF</div>
+    </div>
+
+    <div class="mt-6">
+      <label class="block mb-1 text-sm font-medium">Visual Preview</label>
+      <div id="previewBox" class="w-full h-16 rounded-md flex items-center justify-center text-sm font-medium bg-[#949494] text-black">
+        Preview: #949494 at 100%
+      </div>
+    </div>
+  </div>
+
+  <script>
+    const hexInput = document.getElementById("hexInput");
+    const opacityInput = document.getElementById("opacityInput");
+    const alphaHex = document.getElementById("alphaHex");
+    const rgbaHex = document.getElementById("rgbaHex");
+    const previewBox = document.getElementById("previewBox");
+
+    function convertToAlphaHex(opacity) {
+      const alpha = Math.round((opacity / 100) * 255);
+      return alpha.toString(16).padStart(2, '0').toUpperCase();
+    }
+
+    function updateResult() {
+      const hex = hexInput.value.trim().replace("#", "");
+      const opacity = Math.min(Math.max(parseInt(opacityInput.value), 0), 100);
+      const alpha = convertToAlphaHex(opacity);
+
+      if (!/^([0-9a-f]{6}|[0-9a-f]{3})$/i.test(hex)) {
+        rgbaHex.textContent = "Invalid hex";
+        alphaHex.textContent = "--";
+        previewBox.style.backgroundColor = "transparent";
+        previewBox.textContent = "Invalid input";
+        return;
+      }
+
+      const normalizedHex = hex.length === 3
+        ? hex.split('').map(c => c + c).join('')
+        : hex;
+
+      const fullHex = `#${normalizedHex}${alpha}`;
+      rgbaHex.textContent = fullHex;
+      alphaHex.textContent = alpha;
+      previewBox.style.backgroundColor = `#${normalizedHex}`;
+      previewBox.textContent = `Preview: #${normalizedHex} at ${opacity}%`;
+    }
+
+    hexInput.addEventListener("input", updateResult);
+    opacityInput.addEventListener("input", updateResult);
+    updateResult();
+  </script>
+</body>
+</html>
