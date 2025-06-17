@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
+  
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
@@ -40,7 +41,7 @@
   </style>
 </head>
 <body class="bg-[#0f172a] text-white min-h-screen flex flex-col">
-
+<div id="headerContainer"></div>
   <!-- Main Container -->
   <main class="flex-grow flex items-center justify-center px-4 py-10">
     <div class="bg-gray-800 p-6 rounded-xl shadow-lg w-full max-w-4xl border border-gray-700">
@@ -230,6 +231,34 @@
 
     // Initial update
     updateAll();
+    
   </script>
+<div id="footerContainer"></div>
 </body>
+  
+<script>
+  const isAdmin = true; // Change this to false if user is not admin
+
+  // Function to load external HTML fragments
+  const loadFragment = (url, containerId, callback) => {
+    fetch(url)
+      .then(res => res.text())
+      .then(html => {
+        document.getElementById(containerId).innerHTML = html;
+        if (callback) callback();
+      });
+  };
+
+  // On page load, load header and footer
+  document.addEventListener("DOMContentLoaded", () => {
+    loadFragment('header.html', 'headerContainer', () => {
+      if (isAdmin) document.getElementById('adminHeader')?.classList.remove('hidden');
+    });
+
+    loadFragment('footer.html', 'footerContainer', () => {
+      if (isAdmin) document.getElementById('adminFooter')?.classList.remove('hidden');
+    });
+  });
+</script>
+
 </html>
