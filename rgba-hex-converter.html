@@ -17,15 +17,15 @@
   </style>
 </head>
 <body class="bg-[#0f172a] text-white min-h-screen flex flex-col">
-
   <main class="flex-grow flex items-center justify-center px-4 py-10">
     <div class="bg-gray-800 p-6 rounded-xl shadow-lg w-full max-w-4xl border border-gray-700">
       <h1 class="text-2xl font-bold text-center text-cyan-300 mb-1">RGBA Hex Converter</h1>
       <p class="text-center text-sm text-gray-400 mb-6">Convert hex colors to RGBA format with opacity control</p>
 
       <div class="grid md:grid-cols-2 gap-6">
-        <!-- Left Side -->
+        <!-- Left Panel -->
         <div>
+          <!-- Hex Input -->
           <label class="block mb-2 text-sm font-medium">Hex Color</label>
           <div class="flex items-center gap-2 mb-4 p-2 rounded-md bg-gray-700 border border-cyan-500">
             <span class="text-white text-lg font-mono">#</span>
@@ -33,15 +33,18 @@
               class="flex-1 text-center text-white font-mono text-lg bg-transparent outline-none placeholder-gray-400" />
           </div>
 
+          <!-- Opacity Input -->
           <label class="block mb-2 text-sm font-medium">Opacity (%)</label>
           <input id="opacityInput" type="number" min="0" max="100" value="80"
             class="w-full mb-4 p-2 rounded-md bg-gray-700 text-white border border-gray-600 focus:ring-2 focus:ring-cyan-400 outline-none" />
 
+          <!-- Alpha Hex Display -->
           <div class="mb-4">
             <label class="block text-sm font-medium">Alpha Hex (AA)</label>
             <div id="alphaHex" class="mt-1 bg-gray-700 text-cyan-300 p-2 rounded-md font-mono text-center">CC</div>
           </div>
 
+          <!-- RGBA Hex Display -->
           <div class="mb-4">
             <label class="block text-xs font-medium mb-1">RGBA Hex Code (#RRGGBBAA)</label>
             <div class="relative">
@@ -54,6 +57,7 @@
             </div>
           </div>
 
+          <!-- RGB Code Display -->
           <div class="mb-4">
             <label class="block text-xs font-medium mb-1">RGB Code</label>
             <div class="relative">
@@ -66,38 +70,35 @@
             </div>
           </div>
 
+          <!-- Buttons -->
           <div class="flex gap-2">
             <button id="resetBtn" class="w-full bg-red-600 hover:bg-red-700 text-white py-2 rounded-md text-sm">Reset</button>
             <button id="randomBtn" class="w-full bg-cyan-600 hover:bg-cyan-700 text-white py-2 rounded-md text-sm">Random</button>
           </div>
         </div>
 
-        <!-- Right Side -->
+        <!-- Right Panel -->
         <div class="flex flex-col justify-between h-full">
           <div>
+            <!-- Live Preview -->
             <label class="block mb-1 text-sm font-medium">Live Preview</label>
             <div id="previewBox" class="w-full h-24 rounded-md flex flex-col items-center justify-center text-sm font-medium bg-[#3B82F6] text-black mb-4 hover-feedback relative cursor-pointer">
               <span id="previewText">#3B82F6 at 80%</span>
               <span id="clickText" class="text-xs text-white absolute bottom-1 opacity-80">Click to copy color</span>
             </div>
 
+            <!-- HSL & CMYK -->
             <div class="bg-gray-900 p-4 rounded-lg border border-cyan-700 text-slate-400 text-sm space-y-2 mb-4">
-              <div class="flex justify-between">
-                <span class="font-medium">HSL:</span>
-                <span id="hslValue">217°, 91%, 60%</span>
-              </div>
-              <div class="flex justify-between">
-                <span class="font-medium">CMYK:</span>
-                <span id="cmykValue">76%, 47%, 0%, 4%</span>
-              </div>
+              <div class="flex justify-between"><span class="font-medium">HSL:</span><span id="hslValue">217°, 91%, 60%</span></div>
+              <div class="flex justify-between"><span class="font-medium">CMYK:</span><span id="cmykValue">76%, 47%, 0%, 4%</span></div>
             </div>
 
+            <!-- CSS Usage -->
             <div class="bg-gray-900 p-4 rounded-lg border border-cyan-700 text-cyan-400 text-sm space-y-2">
               <div class="font-semibold text-white">CSS Usage</div>
               <div id="cssHex" class="bg-gray-800 p-2 rounded-md font-mono text-green-400">background-color: #3B82F6CC;</div>
               <div id="cssRgba" class="bg-gray-800 p-2 rounded-md font-mono text-green-400">background-color: rgba(59, 130, 246, 0.8);</div>
             </div>
-
           </div>
         </div>
       </div>
@@ -139,7 +140,6 @@
       document.getElementById('alphaHex').innerText = alpha;
       document.getElementById('rgbaHex').innerText = fullHex;
       document.getElementById('rgbCode').innerText = `${r}, ${g}, ${b}`;
-
       document.getElementById('cssHex').innerText = `background-color: ${fullHex};`;
       document.getElementById('cssRgba').innerText = `background-color: ${rgbaString};`;
 
