@@ -5,6 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>Developer Tools Playground</title>
   <script src="https://cdn.tailwindcss.com"></script>
+  <link rel="preload" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" as="style">
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
   <style>
     body { font-family: 'Inter', sans-serif; }
@@ -21,7 +22,7 @@
     <h1 class="text-5xl font-extrabold text-white mt-2 mb-4">Playground</h1>
     <p class="text-gray-400 mb-6">Modern CSS utilities and converters for developers who build the future</p>
     <div class="space-x-4">
-      <button class="bg-cyan-400 text-black px-5 py-2 rounded hover:bg-cyan-300 transition">Get Started</button>
+      <button onclick="document.getElementById('tools').scrollIntoView({ behavior: 'smooth' });" class="bg-cyan-400 text-black px-5 py-2 rounded hover:bg-cyan-300 transition">Get Started</button>
       <button class="border border-gray-500 text-white px-5 py-2 rounded hover:bg-gray-700 transition">View Tools</button>
     </div>
   </section>
@@ -85,17 +86,26 @@
   <div id="footer"></div>
 
   <!-- Script for Header & Footer -->
-  <script>
-    function includeHTML(id, url) {
-      fetch(url)
-        .then(res => res.text())
-        .then(html => {
-          document.getElementById(id).innerHTML = html;
-        });
-    }
+  <!-- Script for Header & Footer -->
+<script>
+  function includeHTML(id, url) {
+    fetch(url)
+      .then(res => {
+        if (!res.ok) throw new Error(`Failed to fetch ${url}`);
+        return res.text();
+      })
+      .then(html => {
+        document.getElementById(id).innerHTML = html;
+      })
+      .catch(err => {
+        console.error(`Error loading ${url}:`, err);
+        document.getElementById(id).innerHTML = `<div class="text-red-500 text-sm">Error loading ${url}</div>`;
+      });
+  }
 
-    includeHTML("header", "header.html");
-    includeHTML("footer", "footer.html");
-  </script>
+  includeHTML("header", "header.html");
+  includeHTML("footer", "footer.html");
+</script>
+
 </body>
 </html>
