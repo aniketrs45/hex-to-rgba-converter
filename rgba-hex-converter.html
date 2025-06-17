@@ -4,6 +4,7 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>RGBA Hex Converter</title>
+  <!-- Load Tailwind CSS and Google Fonts -->
   <script src="https://cdn.tailwindcss.com"></script>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet" />
   <style>
@@ -14,29 +15,55 @@
     .hover-feedback:hover {
       transform: scale(1.03);
     }
+    .copy-feedback {
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      font-size: 0.75rem;
+      color: white;
+      opacity: 0;
+      transition: opacity 0.3s ease;
+      background-color: rgba(0,0,0,0.5);
+      padding: 2px 6px;
+      border-radius: 6px;
+    }
+    .show-feedback {
+      opacity: 1 !important;
+    }
+    #previewText, #clickText {
+      transition: opacity 0.3s ease;
+    }
+    .hide-temp {
+      opacity: 0;
+    }
   </style>
 </head>
 <body class="bg-[#0f172a] text-white min-h-screen flex flex-col">
+
+  <!-- Main Container -->
   <main class="flex-grow flex items-center justify-center px-4 py-10">
     <div class="bg-gray-800 p-6 rounded-xl shadow-lg w-full max-w-4xl border border-gray-700">
       <h1 class="text-2xl font-bold text-center text-cyan-300 mb-1">RGBA Hex Converter</h1>
       <p class="text-center text-sm text-gray-400 mb-6">Convert hex colors to RGBA format with opacity control</p>
 
       <div class="grid md:grid-cols-2 gap-6">
-        <!-- Left Panel -->
+        <!-- Left Panel for Inputs and Results -->
         <div>
-          <!-- Hex Input -->
+          <!-- Hex Color Input -->
           <label class="block mb-2 text-sm font-medium">Hex Color</label>
-          <div class="flex items-center gap-2 mb-4 p-2 rounded-md bg-gray-700 border border-cyan-500">
+          <div class="flex justify-center items-center gap-2 mb-4 p-2 rounded-md bg-gray-700 border border-cyan-500">
             <span class="text-white text-lg font-mono">#</span>
             <input id="hexInput" type="text" value="3B82F6"
-              class="flex-1 text-center text-white font-mono text-lg bg-transparent outline-none placeholder-gray-400" />
+              class="w-full text-center text-white font-mono text-lg bg-transparent outline-none placeholder-gray-400" maxlength="6" />
           </div>
 
           <!-- Opacity Input -->
           <label class="block mb-2 text-sm font-medium">Opacity (%)</label>
-          <input id="opacityInput" type="number" min="0" max="100" value="80"
-            class="w-full mb-4 p-2 rounded-md bg-gray-700 text-white border border-gray-600 focus:ring-2 focus:ring-cyan-400 outline-none" />
+          <div class="flex justify-center items-center mb-4">
+            <input id="opacityInput" type="number" min="0" max="100" value="80"
+              class="w-full text-center p-2 rounded-md bg-gray-700 text-white border border-gray-600 focus:ring-2 focus:ring-cyan-400 outline-none" />
+          </div>
 
           <!-- Alpha Hex Display -->
           <div class="mb-4">
@@ -44,12 +71,13 @@
             <div id="alphaHex" class="mt-1 bg-gray-700 text-cyan-300 p-2 rounded-md font-mono text-center">CC</div>
           </div>
 
-          <!-- RGBA Hex Display -->
+          <!-- RGBA Hex Code Output -->
           <div class="mb-4">
             <label class="block text-xs font-medium mb-1">RGBA Hex Code (#RRGGBBAA)</label>
             <div class="relative">
               <div id="rgbaHex" class="bg-gray-900 text-cyan-400 p-2 text-center rounded-md font-mono text-base border border-cyan-400">#3B82F6CC</div>
               <button id="copyBtn" class="absolute right-2 top-1/2 -translate-y-1/2 text-cyan-400 hover:text-white">
+                <!-- Copy Icon -->
                 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" class="w-5 h-5">
                   <path d="M16 1H4c-1.1 0-2 .9-2 2v14h2V3h12V1zm3 4H8c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h11c1.1 0 2-.9 2-2V7c0-1.1-.9-2-2-2zm0 16H8V7h11v14z"/>
                 </svg>
@@ -57,12 +85,13 @@
             </div>
           </div>
 
-          <!-- RGB Code Display -->
+          <!-- RGB Code Output -->
           <div class="mb-4">
             <label class="block text-xs font-medium mb-1">RGB Code</label>
             <div class="relative">
               <div id="rgbCode" class="bg-gray-900 text-cyan-400 p-2 text-center rounded-md font-mono text-base border border-cyan-400">59, 130, 246</div>
               <button id="copyRgbBtn" class="absolute right-2 top-1/2 -translate-y-1/2 text-cyan-400 hover:text-white">
+                <!-- Copy Icon -->
                 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" class="w-5 h-5">
                   <path d="M16 1H4c-1.1 0-2 .9-2 2v14h2V3h12V1zm3 4H8c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h11c1.1 0 2-.9 2-2V7c0-1.1-.9-2-2-2zm0 16H8V7h11v14z"/>
                 </svg>
@@ -70,42 +99,52 @@
             </div>
           </div>
 
-          <!-- Buttons -->
+          <!-- Buttons: Reset and Random -->
           <div class="flex gap-2">
             <button id="resetBtn" class="w-full bg-red-600 hover:bg-red-700 text-white py-2 rounded-md text-sm">Reset</button>
             <button id="randomBtn" class="w-full bg-cyan-600 hover:bg-cyan-700 text-white py-2 rounded-md text-sm">Random</button>
           </div>
         </div>
 
-        <!-- Right Panel -->
+        <!-- Right Panel: Preview and Formats -->
         <div class="flex flex-col justify-between h-full">
           <div>
-            <!-- Live Preview -->
+            <!-- Live Color Preview -->
             <label class="block mb-1 text-sm font-medium">Live Preview</label>
             <div id="previewBox" class="w-full h-24 rounded-md flex flex-col items-center justify-center text-sm font-medium bg-[#3B82F6] text-black mb-4 hover-feedback relative cursor-pointer">
               <span id="previewText">#3B82F6 at 80%</span>
               <span id="clickText" class="text-xs text-white absolute bottom-1 opacity-80">Click to copy color</span>
+              <span id="copiedText" class="copy-feedback">Copied!</span>
             </div>
 
-            <!-- HSL & CMYK -->
+            <!-- HSL and CMYK Display -->
             <div class="bg-gray-900 p-4 rounded-lg border border-cyan-700 text-slate-400 text-sm space-y-2 mb-4">
-              <div class="flex justify-between"><span class="font-medium">HSL:</span><span id="hslValue">217°, 91%, 60%</span></div>
-              <div class="flex justify-between"><span class="font-medium">CMYK:</span><span id="cmykValue">76%, 47%, 0%, 4%</span></div>
+              <div class="flex justify-between">
+                <span class="font-medium">HSL:</span>
+                <span id="hslValue">217°, 91%, 60%</span>
+              </div>
+              <div class="flex justify-between">
+                <span class="font-medium">CMYK:</span>
+                <span id="cmykValue">76%, 47%, 0%, 4%</span>
+              </div>
             </div>
 
-            <!-- CSS Usage -->
+            <!-- CSS Snippet Preview -->
             <div class="bg-gray-900 p-4 rounded-lg border border-cyan-700 text-cyan-400 text-sm space-y-2">
               <div class="font-semibold text-white">CSS Usage</div>
               <div id="cssHex" class="bg-gray-800 p-2 rounded-md font-mono text-green-400">background-color: #3B82F6CC;</div>
               <div id="cssRgba" class="bg-gray-800 p-2 rounded-md font-mono text-green-400">background-color: rgba(59, 130, 246, 0.8);</div>
             </div>
+
           </div>
         </div>
       </div>
     </div>
   </main>
 
+  <!-- JavaScript Logic -->
   <script>
+    // Calculate contrast text color based on background
     function getContrastColor(hex) {
       const r = parseInt(hex.substr(0, 2), 16);
       const g = parseInt(hex.substr(2, 2), 16);
@@ -114,6 +153,7 @@
       return luminance > 0.6 ? '#000' : '#FFF';
     }
 
+    // Convert hex code to RGB
     function hexToRgb(hex) {
       const bigint = parseInt(hex, 16);
       const r = (bigint >> 16) & 255;
@@ -122,11 +162,13 @@
       return [r, g, b];
     }
 
+    // Convert opacity (0-100) to alpha hex value
     function alphaFromOpacity(opacity) {
       const val = Math.round((opacity / 100) * 255);
       return val.toString(16).padStart(2, '0').toUpperCase();
     }
 
+    // Update all UI components based on input
     function updateAll() {
       let hex = document.getElementById('hexInput').value.padStart(6, '0').replace(/[^0-9a-fA-F]/g, '').substring(0, 6);
       let opacity = parseInt(document.getElementById('opacityInput').value) || 0;
@@ -137,19 +179,22 @@
       const [r, g, b] = hexToRgb(hex);
       const rgbaString = `rgba(${r}, ${g}, ${b}, ${(opacity / 100).toFixed(2)})`;
 
+      // Set all output fields
       document.getElementById('alphaHex').innerText = alpha;
       document.getElementById('rgbaHex').innerText = fullHex;
       document.getElementById('rgbCode').innerText = `${r}, ${g}, ${b}`;
       document.getElementById('cssHex').innerText = `background-color: ${fullHex};`;
       document.getElementById('cssRgba').innerText = `background-color: ${rgbaString};`;
 
-      document.getElementById('previewBox').style.backgroundColor = `#${hex}`;
+      // Update preview box
+      document.getElementById('previewBox').style.backgroundColor = rgbaString;
       document.getElementById('previewText').innerText = `#${hex} at ${opacity}%`;
       const contrast = getContrastColor(hex);
       document.getElementById('previewText').style.color = contrast;
       document.getElementById('clickText').style.color = contrast;
     }
 
+    // Add event listeners to inputs and buttons
     document.getElementById('hexInput').addEventListener('input', updateAll);
     document.getElementById('opacityInput').addEventListener('input', updateAll);
     document.getElementById('resetBtn').addEventListener('click', () => {
@@ -164,6 +209,26 @@
       updateAll();
     });
 
+    // Copy preview text to clipboard
+    document.getElementById('previewBox').addEventListener('click', () => {
+      const text = document.getElementById('previewText').innerText;
+      navigator.clipboard.writeText(text);
+      const copiedText = document.getElementById('copiedText');
+      const previewText = document.getElementById('previewText');
+      const clickText = document.getElementById('clickText');
+
+      copiedText.classList.add('show-feedback');
+      previewText.classList.add('hide-temp');
+      clickText.classList.add('hide-temp');
+
+      setTimeout(() => {
+        copiedText.classList.remove('show-feedback');
+        previewText.classList.remove('hide-temp');
+        clickText.classList.remove('hide-temp');
+      }, 1500);
+    });
+
+    // Initial update
     updateAll();
   </script>
 </body>
