@@ -251,14 +251,17 @@
 
   // On page load, load header and footer
   document.addEventListener("DOMContentLoaded", () => {
-    loadFragment('header.html', 'headerContainer', () => {
-      if (isAdmin) document.getElementById('adminHeader')?.classList.remove('hidden');
-    });
+  const version = '1.0.2'; // Change this whenever you update header/footer
 
-    loadFragment('footer.html', 'footerContainer', () => {
-      if (isAdmin) document.getElementById('adminFooter')?.classList.remove('hidden');
-    });
+  loadFragment(`header.html?v=${version}`, 'headerContainer', () => {
+    if (isAdmin) document.getElementById('adminHeader')?.classList.remove('hidden');
   });
+
+  loadFragment(`footer.html?v=${version}`, 'footerContainer', () => {
+    if (isAdmin) document.getElementById('adminFooter')?.classList.remove('hidden');
+  });
+});
+
 </script>
 
 </html>
