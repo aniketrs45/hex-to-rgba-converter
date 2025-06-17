@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Color Picker – Playground</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
+  <style>
+    body { font-family: 'Inter', sans-serif; }
+  </style>
+</head>
+<body class="bg-[#0f172a] text-white min-h-screen">
+
+  <!-- Header Include -->
+  <div id="header"></div>
+
+  <!-- Main Section -->
+  <section class="max-w-3xl mx-auto px-6 mt-16 text-center">
+    <h1 class="text-4xl font-bold text-cyan-400 mb-4">Color Picker</h1>
+    <p class="text-gray-400 mb-6">Choose your color and get formats like HEX, RGB, HSL</p>
+
+    <div class="bg-[#1e293b] rounded-xl p-8 shadow-md">
+      <input id="colorInput" type="color" class="w-32 h-32 rounded-lg cursor-pointer border-4 border-cyan-400 mb-6" />
+      <div class="space-y-2 text-left">
+        <p><strong>HEX:</strong> <span id="hexValue" class="text-cyan-300"></span></p>
+        <p><strong>RGB:</strong> <span id="rgbValue" class="text-cyan-300"></span></p>
+        <p><strong>HSL:</strong> <span id="hslValue" class="text-cyan-300"></span></p>
+      </div>
+    </div>
+  </section>
+
+  <!-- Footer Include -->
+  <div id="footer" class="mt-20"></div>
+
+  <!-- Load Header/Footer -->
+  <script>
+    function includeHTML(id, url) {
+      fetch(url).then(res => res.text()).then(html => {
+        document.getElementById(id).innerHTML = html;
+      });
+    }
+    includeHTML("header", "header.html");
+    includeHTML("footer", "footer.html");
+  </script>
+
+  <!-- Color Picker Script -->
+  <script>
+    const input = document.getElementById("colorInput");
+    const hexOut = document.getElementById("hexValue");
+    const rgbOut = document.getElementById("rgbValue");
+    const hslOut = document.getElementById("hslValue");
+
+    function hexToRgb(hex) {
+      const bigint = parseInt(hex.slice(1), 16);
+      const r = (bigint >> 16) & 255;
+      const g = (bigint >> 8) & 255;
+      const b = bigint & 255;
+      return { r, g, b };
+    }
+
+    function rgbToHsl(r, g, b) {
+      r /= 255; g /= 255; b /= 255;
+      const max = Math.max(r, g, b), min = Math.min(r, g, b);
+      let h, s, l = (max + min) / 2;
+      if (max === min) {
+        h = s = 0;
+      } else {
+        const d = max - min;
+        s = l > 0.5 ? d / (2 - max - min) : d / (max + min);
+        switch (max) {
+          case r: h = (g - b) / d + (g < b ? 6 : 0); break;
+          case g: h = (b - r) / d + 2; break;
+          case b: h = (r - g) / d + 4; break;
+        }
+        h /= 6;
+      }
+      return {
+        h: Math.round(h * 360),
+        s: Math.round(s * 100),
+        l: Math.round(l * 100)
+      };
+    }
+
+    input.addEventListener("input", () => {
+      const hex = input.value;
+      hexOut.textContent = hex;
+      const { r, g, b } = hexToRgb(hex);
+      rgbOut.textContent = `rgb(${r}, ${g}, ${b})`;
+      const { h, s, l } = rgbToHsl(r, g, b);
+      hslOut.textContent = `hsl(${h}, ${s}%, ${l}%)`;
+    });
+
+    // Trigger once on load
+    input.dispatchEvent(new Event("input"));
+  </script>
+</body>
+</html>
