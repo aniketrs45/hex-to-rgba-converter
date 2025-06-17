@@ -19,7 +19,7 @@
 <body class="bg-[#0f172a] text-white min-h-screen flex flex-col">
 
   <main class="flex-grow flex items-center justify-center px-4 py-10">
-    <div class="bg-gray-800 p-6 rounded-xl shadow-lg w-full max-w-2xl border border-gray-700">
+    <div class="bg-gray-800 p-6 rounded-xl shadow-lg w-full max-w-4xl border border-gray-700">
       <h1 class="text-2xl font-bold text-center text-cyan-300 mb-1">RGBA Hex Converter</h1>
       <p class="text-center text-sm text-gray-400 mb-6">Convert hex colors to RGBA format with opacity control</p>
 
@@ -43,24 +43,24 @@
           </div>
 
           <div class="mb-4">
-            <label class="block text-sm font-medium mb-1">RGBA Hex Code (#RRGGBBAA)</label>
+            <label class="block text-xs font-medium mb-1">RGBA Hex Code (#RRGGBBAA)</label>
             <div class="relative">
-              <div id="rgbaHex" class="bg-gray-900 text-cyan-400 p-3 text-center rounded-md font-mono text-xl border border-cyan-400">#3B82F6CC</div>
+              <div id="rgbaHex" class="bg-gray-900 text-cyan-400 p-2 text-center rounded-md font-mono text-base border border-cyan-400">#3B82F6CC</div>
               <button id="copyBtn" class="absolute right-2 top-1/2 -translate-y-1/2 text-cyan-400 hover:text-white">
-                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" class="w-5 h-5">
-                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 16h8M8 12h8m-6 8h6a2 2 0 002-2V8a2 2 0 00-2-2H8a2 2 0 00-2 2v6" />
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" class="w-5 h-5">
+                  <path d="M16 1H4c-1.1 0-2 .9-2 2v14h2V3h12V1zm3 4H8c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h11c1.1 0 2-.9 2-2V7c0-1.1-.9-2-2-2zm0 16H8V7h11v14z"/>
                 </svg>
               </button>
             </div>
           </div>
 
           <div class="mb-4">
-            <label class="block text-sm font-medium mb-1">RGB Code</label>
+            <label class="block text-xs font-medium mb-1">RGB Code</label>
             <div class="relative">
-              <div id="rgbCode" class="bg-gray-900 text-cyan-400 p-3 text-center rounded-md font-mono text-xl border border-cyan-400">59, 130, 246</div>
+              <div id="rgbCode" class="bg-gray-900 text-cyan-400 p-2 text-center rounded-md font-mono text-base border border-cyan-400">59, 130, 246</div>
               <button id="copyRgbBtn" class="absolute right-2 top-1/2 -translate-y-1/2 text-cyan-400 hover:text-white">
-                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" class="w-5 h-5">
-                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 16h8M8 12h8m-6 8h6a2 2 0 002-2V8a2 2 0 00-2-2H8a2 2 0 00-2 2v6" />
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" class="w-5 h-5">
+                  <path d="M16 1H4c-1.1 0-2 .9-2 2v14h2V3h12V1zm3 4H8c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h11c1.1 0 2-.9 2-2V7c0-1.1-.9-2-2-2zm0 16H8V7h11v14z"/>
                 </svg>
               </button>
             </div>
@@ -78,12 +78,26 @@
             <label class="block mb-1 text-sm font-medium">Live Preview</label>
             <div id="previewBox" class="w-full h-24 rounded-md flex flex-col items-center justify-center text-sm font-medium bg-[#3B82F6] text-black mb-4 hover-feedback relative cursor-pointer">
               <span id="previewText">#3B82F6 at 80%</span>
-              <span class="text-xs text-white absolute bottom-1 opacity-80">Click to copy color</span>
+              <span id="clickText" class="text-xs text-white absolute bottom-1 opacity-80">Click to copy color</span>
             </div>
-            <div class="bg-gray-900 p-4 rounded-lg border border-cyan-700 text-slate-400 text-sm space-y-2">
-              <div><strong>HSL:</strong> <span id="hslValue">217°, 91%, 60%</span></div>
-              <div><strong>CMYK:</strong> <span id="cmykValue">76%, 47%, 0%, 4%</span></div>
+
+            <div class="bg-gray-900 p-4 rounded-lg border border-cyan-700 text-slate-400 text-sm space-y-2 mb-4">
+              <div class="flex justify-between">
+                <span class="font-medium">HSL:</span>
+                <span id="hslValue">217°, 91%, 60%</span>
+              </div>
+              <div class="flex justify-between">
+                <span class="font-medium">CMYK:</span>
+                <span id="cmykValue">76%, 47%, 0%, 4%</span>
+              </div>
             </div>
+
+            <div class="bg-gray-900 p-4 rounded-lg border border-cyan-700 text-cyan-400 text-sm space-y-2">
+              <div class="font-semibold text-white">CSS Usage</div>
+              <div id="cssHex" class="bg-gray-800 p-2 rounded-md font-mono text-green-400">background-color: #3B82F6CC;</div>
+              <div id="cssRgba" class="bg-gray-800 p-2 rounded-md font-mono text-green-400">background-color: rgba(59, 130, 246, 0.8);</div>
+            </div>
+
           </div>
         </div>
       </div>
@@ -91,23 +105,12 @@
   </main>
 
   <script>
-    const hexInput = document.getElementById("hexInput");
-    const opacityInput = document.getElementById("opacityInput");
-    const alphaHex = document.getElementById("alphaHex");
-    const rgbaHex = document.getElementById("rgbaHex");
-    const previewBox = document.getElementById("previewBox");
-    const previewText = document.getElementById("previewText");
-    const copyBtn = document.getElementById("copyBtn");
-    const copyRgbBtn = document.getElementById("copyRgbBtn");
-    const randomBtn = document.getElementById("randomBtn");
-    const resetBtn = document.getElementById("resetBtn");
-    const rgbCode = document.getElementById("rgbCode");
-    const hslValue = document.getElementById("hslValue");
-    const cmykValue = document.getElementById("cmykValue");
-
-    function convertToAlphaHex(opacity) {
-      const alpha = Math.round((opacity / 100) * 255);
-      return alpha.toString(16).padStart(2, '0').toUpperCase();
+    function getContrastColor(hex) {
+      const r = parseInt(hex.substr(0, 2), 16);
+      const g = parseInt(hex.substr(2, 2), 16);
+      const b = parseInt(hex.substr(4, 2), 16);
+      const luminance = (0.299 * r + 0.587 * g + 0.114 * b) / 255;
+      return luminance > 0.6 ? '#000' : '#FFF';
     }
 
     function hexToRgb(hex) {
@@ -118,99 +121,50 @@
       return [r, g, b];
     }
 
-    function rgbToHsl(r, g, b) {
-      r /= 255; g /= 255; b /= 255;
-      const max = Math.max(r, g, b), min = Math.min(r, g, b);
-      let h, s, l = (max + min) / 2;
-
-      if (max === min) h = s = 0;
-      else {
-        const d = max - min;
-        s = l > 0.5 ? d / (2 - max - min) : d / (max + min);
-        switch (max) {
-          case r: h = (g - b) / d + (g < b ? 6 : 0); break;
-          case g: h = (b - r) / d + 2; break;
-          case b: h = (r - g) / d + 4; break;
-        }
-        h /= 6;
-      }
-
-      return [Math.round(h * 360), Math.round(s * 100), Math.round(l * 100)];
+    function alphaFromOpacity(opacity) {
+      const val = Math.round((opacity / 100) * 255);
+      return val.toString(16).padStart(2, '0').toUpperCase();
     }
 
-    function rgbToCmyk(r, g, b) {
-      let c = 1 - r / 255;
-      let m = 1 - g / 255;
-      let y = 1 - b / 255;
-      let k = Math.min(c, m, y);
-      c = ((c - k) / (1 - k)) || 0;
-      m = ((m - k) / (1 - k)) || 0;
-      y = ((y - k) / (1 - k)) || 0;
-      return [Math.round(c * 100), Math.round(m * 100), Math.round(y * 100), Math.round(k * 100)];
-    }
-
-    function updateResult() {
-      const hex = hexInput.value.trim().replace("#", "");
-      const opacity = Math.min(Math.max(parseInt(opacityInput.value), 0), 100);
-      const alpha = convertToAlphaHex(opacity);
-
-      if (!/^([0-9a-f]{6})$/i.test(hex)) {
-        rgbaHex.textContent = "Invalid hex";
-        alphaHex.textContent = "--";
-        previewBox.style.backgroundColor = "transparent";
-        previewText.textContent = "Invalid input";
-        rgbCode.textContent = "--";
-        hslValue.textContent = "--";
-        cmykValue.textContent = "--";
-        return;
-      }
-
+    function updateAll() {
+      let hex = document.getElementById('hexInput').value.padStart(6, '0').replace(/[^0-9a-fA-F]/g, '').substring(0, 6);
+      let opacity = parseInt(document.getElementById('opacityInput').value) || 0;
+      if (opacity > 100) opacity = 100;
+      if (opacity < 0) opacity = 0;
+      const alpha = alphaFromOpacity(opacity);
       const fullHex = `#${hex}${alpha}`;
-      rgbaHex.textContent = fullHex;
-      alphaHex.textContent = alpha;
-      previewBox.style.backgroundColor = `#${hex}`;
-      previewText.textContent = `#${hex.toUpperCase()} at ${opacity}%`;
-
       const [r, g, b] = hexToRgb(hex);
-      rgbCode.textContent = `${r}, ${g}, ${b}`;
+      const rgbaString = `rgba(${r}, ${g}, ${b}, ${(opacity / 100).toFixed(2)})`;
 
-      const [h, s, l] = rgbToHsl(r, g, b);
-      hslValue.textContent = `${h}°, ${s}%, ${l}%`;
+      document.getElementById('alphaHex').innerText = alpha;
+      document.getElementById('rgbaHex').innerText = fullHex;
+      document.getElementById('rgbCode').innerText = `${r}, ${g}, ${b}`;
 
-      const [c, m, y, k] = rgbToCmyk(r, g, b);
-      cmykValue.textContent = `${c}%, ${m}%, ${y}%, ${k}%`;
+      document.getElementById('cssHex').innerText = `background-color: ${fullHex};`;
+      document.getElementById('cssRgba').innerText = `background-color: ${rgbaString};`;
+
+      document.getElementById('previewBox').style.backgroundColor = `#${hex}`;
+      document.getElementById('previewText').innerText = `#${hex} at ${opacity}%`;
+      const contrast = getContrastColor(hex);
+      document.getElementById('previewText').style.color = contrast;
+      document.getElementById('clickText').style.color = contrast;
     }
 
-    function getRandomHex() {
-      return Math.floor(Math.random() * 0xFFFFFF).toString(16).padStart(6, "0").toUpperCase();
-    }
-
-    function copyToClipboard(text, targetBtn) {
-      navigator.clipboard.writeText(text).then(() => {
-        const originalHTML = targetBtn.innerHTML;
-        targetBtn.innerHTML = "<span class='text-sm'>Copied!</span>";
-        setTimeout(() => targetBtn.innerHTML = originalHTML, 1000);
-      });
-    }
-
-    previewBox.addEventListener("click", () => copyToClipboard(previewText.textContent, previewBox));
-    hexInput.addEventListener("input", updateResult);
-    opacityInput.addEventListener("input", updateResult);
-    copyBtn.addEventListener("click", () => copyToClipboard(rgbaHex.textContent, copyBtn));
-    copyRgbBtn.addEventListener("click", () => copyToClipboard(rgbCode.textContent, copyRgbBtn));
-    randomBtn.addEventListener("click", () => {
-      hexInput.value = getRandomHex();
-      updateResult();
+    document.getElementById('hexInput').addEventListener('input', updateAll);
+    document.getElementById('opacityInput').addEventListener('input', updateAll);
+    document.getElementById('resetBtn').addEventListener('click', () => {
+      document.getElementById('hexInput').value = '3B82F6';
+      document.getElementById('opacityInput').value = 80;
+      updateAll();
     });
-    resetBtn.addEventListener("click", resetForm);
+    document.getElementById('randomBtn').addEventListener('click', () => {
+      const randomHex = Math.floor(Math.random()*16777215).toString(16).padStart(6, '0');
+      document.getElementById('hexInput').value = randomHex.toUpperCase();
+      document.getElementById('opacityInput').value = Math.floor(Math.random()*101);
+      updateAll();
+    });
 
-    function resetForm() {
-      hexInput.value = "3B82F6";
-      opacityInput.value = "80";
-      updateResult();
-    }
-
-    updateResult();
+    updateAll();
   </script>
 </body>
 </html>
