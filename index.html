@@ -93,24 +93,22 @@
   <!-- Script for Header & Footer -->
   <!-- Script for Header & Footer -->
 <script>
-  function includeHTML(id, url) {
+  function includeHTML(id, url, callback) {
     fetch(url)
-      .then(res => {
-        if (!res.ok) throw new Error(`Failed to fetch ${url}`);
-        return res.text();
-      })
+      .then(res => res.text())
       .then(html => {
         document.getElementById(id).innerHTML = html;
-      })
-      .catch(err => {
-        console.error(`Error loading ${url}:`, err);
-        document.getElementById(id).innerHTML = `<div class="text-red-500 text-sm">Error loading ${url}</div>`;
+        if (callback) callback(); // ensures code inside runs only after load
       });
   }
 
-  includeHTML("header", "header.html");
+  includeHTML("header", "header.html", () => {
+    // Add any header-dependent JS here if needed later
+  });
+
   includeHTML("footer", "footer.html");
 </script>
+
 
 </body>
 </html>
